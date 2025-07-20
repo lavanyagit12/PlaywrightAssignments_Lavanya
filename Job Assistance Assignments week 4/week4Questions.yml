@@ -1,0 +1,48 @@
+#1.How will you handle this using Playwright?
+In playwright there are 2 ways of handling the Alert
+page.on - 
+This is used when we have multiple alerts in the application.
+It handles all the alerts present in the test based on the tests we have provided
+page.once
+This is used when we have minimum alerts in the application.
+It handles only the first alert present in the test 
+
+methods used in are
+alert.type()
+alert.message()
+alert.accept()
+alert.dismiss()
+#2.How would your code react if the alert is not handled?
+If the alert is not handled it will auto dismiss
+
+#3.How do you simulate both accept and cancel flows?
+    page.once("dialog",jsAlert=>{
+
+           const AlertType = console.log(jsAlert.type())
+           jsAlert.message()
+           if(AlertType ==='Confirm'){
+            jsAlert.accept()
+           }else{  
+            jsAlert.dismiss()
+          }
+    })
+
+#4.How would you handle multiple pages/tabs?
+
+Multiple pages or tabs are handled by event listener using promise.all
+It creates arrays of pages and access it
+
+    const [multipleWindow] = await Promise.all([
+        context.waitForEvent('page'),
+        page.locator("//span[text()='Open Multiple']").click()
+
+    ])
+
+For single tab we can create the promise and click on the link and resolve
+the promise.
+
+#5.How do you wait for the new page context?
+context.waitForEvent('page') - we use this method to wait for the new page by creating
+a promise which will perform and resolve the action 
+
+Another method is context.waitForLoadstate() to ensure the new page is fully loaded before interacting with it.
